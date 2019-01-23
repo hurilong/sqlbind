@@ -952,8 +952,6 @@ function getUser ( vector<UserInfo> infos , int totalCount , int startIndex ,int
 
 &emsp;&emsp; 这款工具，只是我对以往使用SQL的一个总结，我觉得它可以提高我的工作效率，当然我也期待，能够提高你的工作效率。SQL语法分析部分，我是以数据库实际的语法兼容来编写，个人精力有限，我先按照我最常用的一些语句来编写，肯定存在不能覆盖的部分; 希望收到你的反馈，我尽量添加这部分的支持。
 
-网站：http://wwww.sqlbind.cn
-
 QQ群：691083125
 
 email: 3267886@qq.com
