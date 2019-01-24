@@ -6,9 +6,9 @@
 
 &emsp;&emsp;在java的世界中orm非常流行，.net我估计也是。而且不止一种框架，我也曾经使用过各种框架，为什么会有这么多的框架？其实每个框架都有自己适应的范围，当你的使用频繁落在框架的范围外的，你就会寻求另外一种框架，周而复始...
 
-&emsp;&emsp;orm框架，大部分都会宣称，不用写SQL就可以完成访问。它们基本上会有一种中间描述，用来对SQL语句的二次封装，小应用还好,但对于复杂的SQL语句，要么就无法支持，要么就特别难写；而且最后转换成的SQL基本上不具有可读性。
+&emsp;&emsp;orm框架，大部分都会宣称，不用写SQL就可以完成访问。它们基本上会有一种中间描述，用来对SQL语句的二次封装，小应用还好,但对于复杂的SQL语句，要么就无法支持，要么就特别难写；最后转换成的SQL基本上不具有可读性。
 而且ORM的对象绑定，如果手写，也是一个不小的工作量。
-实际上任何对SQL语句的二次描述，都有一定的学习成本 ，而且也难以表达出SQL语句所能完成的范围，还是最原始的SQL好，对于任何一个程序员来说掌握SQL，基本上是一个必务的要求。
+实际上任何对SQL语句的二次描述，都有一定的学习成本 ，而且也难以表达出SQL语句所能完成的范围，还是最原始的SQL好，对于任何一个程序员来说掌握SQL，基本上是一个必要的要求。
 
 &emsp;&emsp;另一类的方式就是提供统一的接口，如poco、otl，... ，它们提供了大而全的接口，但是他们写SQL语句的时候，常常需要做拼接，这一点让我感到异常难受，一个完整的SQL语句变成几个字符串支离破碎拼接在一起，写起来心里堵。而且调试的时候，只能编译程序后进行调试，一不小心很容易埋下隐患。
 
@@ -611,7 +611,7 @@ select id from `user` ;
  对于整体更新可以使用以下方式：
  
  ```
- update tableName @{id,bc,} set :info where ... 
+ update tableName !{id,bc,} set :info where ... 
  ```
  整体更新会自动将 info 结构变量跟，tableName 的字段能过名称的配对关联起来。
  
@@ -670,10 +670,10 @@ insert into user ( id , name , *) values ( :id , :name , :infos ) ;
 - 使用自动配对字段名的方式
 
 ```
-insert into tableName @{columnName1, columnName2} value :info
+insert into tableName !{columnName1, columnName2} value :info
 ```
 
-其中 @{columnName1, columnName2} 为可选项，如果带上了，是告诉编译器，在进行自动推导的时候，排除掉 columnName1 和 columnName2 这两个列。
+其中 !{columnName1, columnName2} 为可选项，如果带上了，是告诉编译器，在进行自动推导的时候，排除掉 columnName1 和 columnName2 这两个列。
 
 
 
@@ -686,7 +686,7 @@ insert into tableName @{columnName1, columnName2} value :info
 function addUser (UserInfo info) 
 {
     begin sql 
-        insert into user ( phone , name ) values ( :info.phone , :info.name); 
+        insert into user ( phone , * ) values ( :info.phone , :info ); 
     end; 
 }
 ```
