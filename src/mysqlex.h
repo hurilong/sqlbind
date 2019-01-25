@@ -27,12 +27,12 @@ public :
 		return stmt_;
 	}
 	
-	inline void operator = (MYSQL_STMT *_stmt)
+	inline void operator = (MYSQL_STMT *stmt)
 	{
-		if ( stmt && stmt != _stmt ) {
-			mysql_stmt_close(stmt) ;
+		if ( stmt_ && stmt_ != stmt ) {
+			mysql_stmt_close(stmt_) ;
 		}
-		stmt = _stmt;
+		stmt_ = stmt;
 	}
 	
 	~mysqlex_stmt()
@@ -119,14 +119,16 @@ inline void sql_bind(MYSQL_BIND * bind , void * buffer , int buffer_length , enu
 	bind->buffer_type = type;
 }
 
-inline bool sql_fetch( MYSQL_STMT * stmt )
+inline int sql_fetch( MYSQL_STMT * stmt )
 {
-	switch(mysql_stmt_fetch(stmt)) {
+	switch(r = mysql_stmt_fetch(stmt)) {
 	case 0 :
 	case MYSQL_DATA_TRUNCATED:
-		return true;
+		return 1;
+	case MYSQL_NO_DATA : 
+		return 0 ;
 	default:
-		return false;
+		return -1 ;
 	}
 }
 
